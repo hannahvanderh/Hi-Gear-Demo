@@ -25,28 +25,28 @@ class handDetector:
             num_hands=2  # Maximum number of hands to detect
         )
         self.top_idx = [4,8,12,16,20]
+        self.recognizer = vision.GestureRecognizer.create_from_options(self.options)
 
         
         
     def findhands(self, frame, draw_landmark=True):
-        with vision.GestureRecognizer.create_from_options(self.options) as recognizer:
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
-            self.detection_result = recognizer.recognize(mp_image)
-            
-            if self.detection_result.hand_landmarks:
-                for hand_landmarks in self.detection_result.hand_landmarks:
-                    for id, lm in enumerate(hand_landmarks):
-                        h, w, c = frame.shape
-                        cx, cy = int(lm.x * w), int(lm.y * h)
-                        
-                        # Custom logic for specific landmarks
-                        if id == 4: # Tip of the thumb
-                            cv2.circle(frame, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
-                        else:
-                            cv2.circle(frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
-            
-            return frame
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
+        self.detection_result = self.recognizer.recognize(mp_image)
+        
+        if self.detection_result.hand_landmarks:
+            for hand_landmarks in self.detection_result.hand_landmarks:
+                for id, lm in enumerate(hand_landmarks):
+                    h, w, c = frame.shape
+                    cx, cy = int(lm.x * w), int(lm.y * h)
+                    
+                    # Custom logic for specific landmarks
+                    if id == 4: # Tip of the thumb
+                        cv2.circle(frame, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
+                    else:
+                        cv2.circle(frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
+        
+        return frame
     
     def gethandlocation(self, frame, handNo=0, draw_landmark=True):
         self.lmlist = []
