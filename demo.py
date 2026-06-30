@@ -31,7 +31,7 @@ with vision.GestureRecognizer.create_from_options(options) as recognizer:
             font = cv2.FONT_HERSHEY_SIMPLEX
             print(detection_result.gestures)
             for index, g in enumerate(detection_result.gestures):
-                cv2.putText(frame, f"{g[0].category_name.replace("_", " ")}", (50,75 + (60 * index)), font, 2, (0, 255, 255), 5, cv2.LINE_AA)
+                cv2.putText(frame, f"{index} {g[0].category_name.replace("_", " ")}", (50,75 + (60 * index)), font, 2, (255, 0, 255), 5, cv2.LINE_AA)
 
         if detection_result.hand_landmarks:
             for hand_landmarks in detection_result.hand_landmarks:
@@ -41,9 +41,9 @@ with vision.GestureRecognizer.create_from_options(options) as recognizer:
                     
                     # Custom logic for specific landmarks
                     if id == 4: # Tip of the thumb
-                        cv2.circle(frame, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
+                        cv2.circle(frame, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
                     else:
-                        cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
+                        cv2.circle(frame, (cx, cy), 10, (0, 255, 0), cv2.FILLED)
 
         # Display results
         cv2.imshow("MediaPipe Hands", frame)
