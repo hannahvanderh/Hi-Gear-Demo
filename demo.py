@@ -1,11 +1,9 @@
 #https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer
-#["None", "Closed_Fist", "Open_Palm", "Pointing_Up", "Thumb_Down", "Thumb_Up", "Victory", "ILoveYou"
 import mediapipe as mp
 import cv2
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-#model_path = 'hand_landmarker.task'
 model_path = 'gesture_recognizer.task'
 
 BaseOptions = mp.tasks.BaseOptions
@@ -43,9 +41,9 @@ with vision.GestureRecognizer.create_from_options(options) as recognizer:
                     
                     # Custom logic for specific landmarks
                     if id == 4: # Tip of the thumb
-                        cv2.circle(frame, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
+                        cv2.circle(frame, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
                     else:
-                        cv2.circle(frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
+                        cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
 
         # Display results
         cv2.imshow("MediaPipe Hands", frame)
